@@ -6,31 +6,34 @@
 /*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:57:39 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/06 15:22:17 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/07 19:03:20 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
+#include <stdio.h>
 
 char	*get_next_line(int fd)
 {
-	char	*buf[BUFFER_SIZE];
+	static char	buf[BUFFER_SIZE + 1];
+	char		*array;
+	int			index;
+	int			isbackslash;
 
-	read(fd, buf, BUFFER_SIZE);
-	find_line(buf);
-	return (*buf);
-}
-
-char	*find_line(char *buf)
-{
-	int	index;
-
+	array = malloc(sizeof(char));
+	array[0] = 0;
 	index = 0;
-	while (buf[index] && index < BUFFER_SIZE)
+	if(ft_strlen(buf) != 0)
+		
+	while (read(fd, buf, BUFFER_SIZE))
 	{
-		if (buf[index] == '\n')
-			return (index);
-		index++;
+		// printf("\n buf :%s\n", buf);
+		if (is_backslash(buf) > 0)
+		{
+			isbackslash = is_backslash(buf);
+			return (ft_strnjoin(array, buf, isbackslash));
+		}
+		array = ft_strnjoin(array, buf, BUFFER_SIZE);
 	}
-	buf[index] = '\0';
+	return (array);
 }

@@ -6,7 +6,7 @@
 /*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:58:14 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/06 15:10:27 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/07 18:44:22 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,5 +21,12 @@
 # include <stdlib.h>
 
 char	*get_next_line(int fd);
+
+char	*ft_strnjoin(char *s1, char *s2, int index);
+
+int	is_backslash(char *str);
+
+size_t	ft_strlen(char *str);
+
 
 #endif

@@ -6,13 +6,13 @@
 /*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 15:48:24 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/04 15:48:40 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/07 18:58:49 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-char	*ft_strjoin(char const *s1, char const *s2)
+char	*ft_strnjoin(char *s1, char *s2, int index)
 {
 	int		sizearray;
 	int		sizestring;
@@ -31,11 +31,37 @@ char	*ft_strjoin(char const *s1, char const *s2)
 		runner++;
 	}
 	runner = 0;
-	while (runner < sizestring)
+	while (runner < sizestring && runner < index)
 	{
 		array[runner + sizearray] = s2[runner];
 		runner++;
 	}
 	array[runner + sizearray] = '\0';
 	return (array);
+}
+
+int	is_backslash(char *str)
+{
+	int	index;
+
+	index = 0;
+	while (str[index])
+	{
+		if (str[index] == '\n')
+			return (index);
+		index++;
+	}
+	return (0);
+}
+
+size_t	ft_strlen(char *str)
+{
+	size_t	index;
+
+	index = 0;
+	while(str[index])
+	{
+		index++;
+	}
+	return (index);
 }
