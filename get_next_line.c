@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cprojean <cprojean@42lyon.fr>              +#+  +:+       +#+        */
+/*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:57:39 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/08 18:18:04 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/10 18:25:51 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,28 +19,35 @@ char	*get_next_line(int fd)
 	static char	buf[BUFFER_SIZE + 1];
 	char		*array;
 	int			index;
+	int			reader;
 	size_t		isbackslash;
 
 	array = malloc(sizeof(char));
 	array[0] = 0;
 	index = 0;
-	if(ft_strlen(buf) != 0)
+	if(buf[0] != 0)
 	{
 		isbackslash = is_backslash(buf);
-		ft_strcut(buf, isbackslash);
-		while (is_backslash(buf) > 0)
-			ft_strcut(buf, is_backslash(buf));
-		return (buf);
+		array = buf;
+		buf[0] = 0;
+		ft_strcut(array, isbackslash);
+		while (how_many_backslash(array) > 1)
+			ft_strcut(array, is_backslash(array));
+		return (array);
 	}
+	//reader = read(fd, buf, BUFFER_SIZE);
+	if (reader == -1)
+		return (NULL);
 	while (read(fd, buf, BUFFER_SIZE) != 0)
 	{
-		if (how_many_backslash(buf) > 1)
+		if (how_many_backslash(buf) >= 1)
 		{
 			isbackslash = is_backslash(buf);
 			return (ft_strnjoin(array, buf, isbackslash));
 		}
 		array = ft_strnjoin(array, buf, BUFFER_SIZE);
 	}
+	array[BUFFER_SIZE + 1] = '\0';
 	return (array);
 }
 
@@ -101,16 +108,16 @@ size_t	ft_strlen(char *str)
 void	ft_strcut(char *buf, size_t index)
 {
 	size_t	runner;
-	char	*str;
+	size_t	flag;
 
-	index++;
+	flag = index;
 	runner = 0;
-	while(index <= BUFFER_SIZE && buf[index] != '\n')
+	//index += 1;
+	while(runner <= BUFFER_SIZE && runner < flag && buf[index])
 	{
-		buf[runner] = buf[index];
-		runner++;
-		index++;
+		buf[runner++] = buf[index++];
 	}
+	buf[runner] = '\0';
 }
 
 int	how_many_backslash(char *buf)
@@ -122,8 +129,9 @@ int	how_many_backslash(char *buf)
 	count = 0;
 	while (buf[index])
 	{
-		if (buf[index] == '\n')
+ 		if (buf[index] == '\n')
 			count++;
+		index++;
 	}
 	return (count);
 }
@@ -140,6 +148,12 @@ int main()
 	// 	i++;
 	// }
 	// printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
+	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 	printf("%s", get_next_line(fd));
 }
