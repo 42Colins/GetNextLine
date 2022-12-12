@@ -6,7 +6,7 @@
 /*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:57:39 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/10 18:25:51 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/12 15:48:46 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,30 +22,35 @@ char	*get_next_line(int fd)
 	int			reader;
 	size_t		isbackslash;
 
-	array = malloc(sizeof(char));
+	array = malloc(sizeof(char) * BUFFER_SIZE + 1);
 	array[0] = 0;
 	index = 0;
 	if(buf[0] != 0)
 	{
-		isbackslash = is_backslash(buf);
-		array = buf;
-		buf[0] = 0;
-		ft_strcut(array, isbackslash);
-		while (how_many_backslash(array) > 1)
-			ft_strcut(array, is_backslash(array));
-		return (array);
+		isbackslash = is_backslash(buf) + 1;
+		ft_strcut(buf, isbackslash);
+		array =  ft_strnjoin(array, buf, is_backslash(buf));
+		if (array[0] != '\0')
+			return (array);
 	}
 	//reader = read(fd, buf, BUFFER_SIZE);
 	if (reader == -1)
 		return (NULL);
 	while (read(fd, buf, BUFFER_SIZE) != 0)
 	{
-		if (how_many_backslash(buf) >= 1)
+		if (how_many_backslash(buf) == 1)
 		{
 			isbackslash = is_backslash(buf);
 			return (ft_strnjoin(array, buf, isbackslash));
 		}
-		array = ft_strnjoin(array, buf, BUFFER_SIZE);
+		if(how_many_backslash(buf) > 1)
+		{
+			isbackslash = is_backslash(buf);
+			array = ft_strnjoin(array, buf, isbackslash);
+			ft_strcut(buf, isbackslash);
+		}
+		else
+			array = ft_strnjoin(array, buf, BUFFER_SIZE);
 	}
 	array[BUFFER_SIZE + 1] = '\0';
 	return (array);
@@ -112,12 +117,19 @@ void	ft_strcut(char *buf, size_t index)
 
 	flag = index;
 	runner = 0;
-	//index += 1;
-	while(runner <= BUFFER_SIZE && runner < flag && buf[index])
+	while(runner <= BUFFER_SIZE && runner < flag + 1 && buf[index])
 	{
-		buf[runner++] = buf[index++];
+		buf[runner] = buf[index];
+		runner++;
+		index++;
 	}
-	buf[runner] = '\0';
+	while(buf[runner])
+		buf[runner] = '\0';
+}
+
+void	ft_str_reversecut(char *buf, size_t index)
+{
+	buf[index] = '\0';
 }
 
 int	how_many_backslash(char *buf)

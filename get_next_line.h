@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line.h                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: cprojean <cprojean@42lyon.fr>              +#+  +:+       +#+        */
+/*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:58:14 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/08 18:18:30 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/12 18:16:13 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 15
+#  define BUFFER_SIZE 100
 # endif
 
 # include <unistd.h>
@@ -30,7 +30,12 @@ size_t	ft_strlen(char *str);
 
 void	ft_strcut(char *buf, size_t index);
 
+void	ft_str_reversecut(char *buf, size_t index);
+
 int		how_many_backslash(char *buf);
 
+void	ft_buf_reset(char *buf, int index);
+
+int	where_backslash(char *buf);
 
 #endif
