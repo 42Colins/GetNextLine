@@ -6,7 +6,7 @@
 /*   By: cprojean <cprojean@student.42lyon.fr>      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/12/04 14:58:14 by cprojean          #+#    #+#             */
-/*   Updated: 2022/12/13 16:36:21 by cprojean         ###   ########.fr       */
+/*   Updated: 2022/12/13 18:05:21 by cprojean         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,8 @@
 # include <fcntl.h>
 
 char	*get_next_line(int fd);
+
+char	*next_get_next_line(char *buf, char *array, ssize_t reader, int fd);
 
 char	*ft_strnjoin(char *s1, char *s2, size_t index);
 
